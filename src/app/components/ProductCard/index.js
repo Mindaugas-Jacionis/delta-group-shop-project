@@ -9,7 +9,9 @@ function ProductCard({
   currencySymbol,
   id,
   isFavorite,
+  cartCount,
   toggleFavorite,
+  updateCartCount,
 }) {
   return (
     <div className="Product-card">
@@ -20,11 +22,12 @@ function ProductCard({
         <h3>{name}</h3>
         <p>{`${price}${currencySymbol}`}</p>
         <div className="Product-card--content-cta">
-          <button type="button" onClick={() => console.log("Add to cart", id)}>
-            <span role="img" aria-label="Add to Cart">
-              🛒
-            </span>
-          </button>
+          <input
+            type="number"
+            min={0}
+            onChange={e => updateCartCount(id, e.target.value)}
+            value={cartCount}
+          />
           <button type="button" onClick={() => toggleFavorite(id)}>
             <span role="img" aria-label="Add to Favorites">
               {isFavorite ? "💔" : "❤️"}
@@ -43,7 +46,10 @@ ProductCard.propTypes = {
   currencySymbol: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool.isRequired,
+  cartCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   toggleFavorite: PropTypes.func.isRequired,
+  updateCartCount: PropTypes.func.isRequired,
 };
 
 export default ProductCard;
