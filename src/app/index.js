@@ -8,12 +8,17 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+
 import { Shop, Favorites, Cart, PageNotFound, Login } from "./pages";
 import { PageLayout, PrivateRoute } from "./components";
+import auth from "../auth";
+import shop from "../shop";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log("HIIIII", shop);
 
     this.NAV_LINKS = [
       { title: "Logout", accessLevel: "onlyLogged", onClick: props.logout },
@@ -109,12 +114,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getProducts: () => dispatch({ type: "FETCH_PRODUCTS" }),
+    getProducts: () => dispatch({ type: shop.types.FETCH_PRODUCTS }),
     getProductsSuccess: payload =>
-      dispatch({ type: "FETCH_PRODUCTS_SUCCESS", payload }),
+      dispatch({ type: shop.types.FETCH_PRODUCTS_SUCCESS, payload }),
     getProductsFailure: payload =>
-      dispatch({ type: "FETCH_PRODUCTS_FAILURE", payload }),
-    logout: () => dispatch({ type: "LOGOUT" }),
+      dispatch({ type: shop.types.FETCH_PRODUCTS_FAILURE, payload }),
+    logout: () => dispatch({ type: auth.types.LOGOUT }),
   };
 }
 
