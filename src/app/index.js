@@ -104,26 +104,20 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
+const enhance = connect(
+  state => ({
     error: state.shop.error,
     loading: state.shop.loading,
     isLogged: !!state.auth.token,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
+  }),
+  dispatch => ({
     getProducts: () => dispatch({ type: shop.types.FETCH_PRODUCTS }),
     getProductsSuccess: payload =>
       dispatch({ type: shop.types.FETCH_PRODUCTS_SUCCESS, payload }),
     getProductsFailure: payload =>
       dispatch({ type: shop.types.FETCH_PRODUCTS_FAILURE, payload }),
     logout: () => dispatch({ type: auth.types.LOGOUT }),
-  };
-}
+  })
+);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default enhance(App);
