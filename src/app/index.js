@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { PacmanLoader } from "react-spinners";
 import {
   BrowserRouter as Router,
@@ -18,8 +19,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log("HIIIII", shop);
-
     this.NAV_LINKS = [
       { title: "Logout", accessLevel: "onlyLogged", onClick: props.logout },
       { title: "Login", accessLevel: "notLogged", to: "/login" },
@@ -30,21 +29,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { getProducts, getProductsSuccess, getProductsFailure } = this.props;
+    const { getProducts } = this.props;
 
     getProducts();
-    fetch("https://boiling-reaches-93648.herokuapp.com/food-shop/products")
-      .then(response => response.json())
-      .then(json => {
-        const products = json.map(product => ({
-          ...product,
-          isFavorite: false,
-          cartCount: 0,
-        }));
-
-        getProductsSuccess(products);
-      })
-      .catch(() => getProductsFailure("Something went wrong"));
   }
 
   renderNav = () => {
@@ -106,17 +93,13 @@ class App extends React.Component {
 
 const enhance = connect(
   state => ({
-    error: state.shop.error,
-    loading: state.shop.loading,
+    error: shop.selectors.getError(state),
+    loading: shop.selectors.isLoading(state),
     isLogged: auth.selectors.isLogged(state),
   }),
   dispatch => ({
-    getProducts: () => dispatch({ type: shop.types.FETCH_PRODUCTS }),
-    getProductsSuccess: payload =>
-      dispatch({ type: shop.types.FETCH_PRODUCTS_SUCCESS, payload }),
-    getProductsFailure: payload =>
-      dispatch({ type: shop.types.FETCH_PRODUCTS_FAILURE, payload }),
-    logout: () => dispatch({ type: auth.types.LOGOUT }),
+    getProducts: bindActionCreators(shop.actions.getProducts, dispatch),
+    logout: bindActionCreators(auth.actions.logout, dispatch),
   })
 );
 

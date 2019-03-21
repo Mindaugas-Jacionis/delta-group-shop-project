@@ -8,6 +8,10 @@ const DEFAULT_STATE = {
 };
 
 export default (state = DEFAULT_STATE, action) => {
+  if (action.type === types.FETCH_PRODUCTS_FAILURE) {
+    console.log(action.payload);
+  }
+
   switch (action.type) {
     case types.FETCH_PRODUCTS:
       return { ...state, loading: true };

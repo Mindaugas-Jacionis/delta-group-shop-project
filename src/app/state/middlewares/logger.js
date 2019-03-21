@@ -6,7 +6,7 @@ const logger = ({ getState, dispatch }) => next => action => {
   const nextState = getState();
 
   console.log("previous state", prevState);
-  console.log(action.type, action.payload);
+  console.log(action, action.payload);
   console.log("next state", nextState);
 
   if (action.type === shop.types.TOGGLE_FAVORITE_PRODUCT) {
