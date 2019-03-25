@@ -1,10 +1,15 @@
-import React from "react";
 import PropTypes from "prop-types";
-import "./index.scss";
+import styled from "styled-components";
 
-function ProductsContainer({ children, className }) {
-  return <div className={`Products-list ${className}`}>{children}</div>;
-}
+const ProductsContainer = styled.div`
+  max-width: 1200px;
+  padding: 0 50px;
+  margin: 0 auto;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+`;
 
 ProductsContainer.propTypes = {
   children: PropTypes.node.isRequired,
